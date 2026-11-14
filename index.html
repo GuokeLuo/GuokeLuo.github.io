@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guoke Luo (罗果科) - Humanoid Robotics & Embodied AI</title>
+  <style>
+    :root {
+      --text-main: #222222;
+      --text-muted: #555555;
+      --link-color: #1772d0;
+      --link-hover: #f09228;
+      --bg-highlight: #fffff0;
+      --border-light: #eaeaea;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--text-main);
+      line-height: 1.6;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+      font-size: 15px;
+    }
+    a {
+      color: var(--link-color);
+      text-decoration: none;
+    }
+    a:hover {
+      color: var(--link-hover);
+      text-decoration: underline;
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 36px;
+    }
+    .bio-section {
+      flex: 1;
+    }
+    .name-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0 0 12px 0;
+      letter-spacing: -0.5px;
+    }
+    .name-cn {
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-left: 8px;
+    }
+    .links-bar {
+      margin-top: 16px;
+      font-size: 15px;
+    }
+    .links-bar span {
+      margin: 0 8px;
+      color: #ccc;
+    }
+    .profile-photo {
+      width: 190px;
+      height: 190px;
+      border-radius: 12px;
+      object-fit: cover;
+      background-color: #f4f4f4;
+      border: 1px solid var(--border-light);
+      flex-shrink: 0;
+    }
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 6px;
+      margin-top: 36px;
+      margin-bottom: 18px;
+    }
+    .news-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .news-list li {
+      margin-bottom: 8px;
+      display: flex;
+      gap: 14px;
+    }
+    .news-date {
+      font-weight: 600;
+      color: var(--text-muted);
+      min-width: 85px;
+    }
+    .project-item {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 28px;
+      padding: 14px;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+    }
+    .project-item.highlight {
+      background-color: var(--bg-highlight);
+      border: 1px solid #f3efd2;
+    }
+    .project-media {
+      width: 240px;
+      flex-shrink: 0;
+    }
+    .project-media video,
+    .project-media img {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid var(--border-light);
+      display: block;
+      background: #f8f8f8;
+    }
+    .media-placeholder {
+      width: 100%;
+      height: 145px;
+      border-radius: 6px;
+      border: 1px dashed #ccc;
+      background: #fafafa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      font-size: 13px;
+      text-align: center;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    .project-info {
+      flex: 1;
+    }
+    .project-title {
+      font-size: 16.5px;
+      font-weight: 700;
+      margin: 0 0 4px 0;
+      color: #111;
+    }
+    .project-authors {
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+    .project-venue {
+      font-style: italic;
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .project-links {
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .project-desc {
+      margin: 0;
+      color: #333;
+      font-size: 14.5px;
+    }
+    .badge-tag {
+      display: inline-block;
+      background: #eef4fc;
+      color: #1772d0;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 1px 7px;
+      border-radius: 4px;
+      margin-left: 6px;
+      font-style: normal;
+    }
+    footer {
+      margin-top: 50px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-light);
+      text-align: right;
+      font-size: 13px;
+      color: #888;
+    }
+    @media (max-width: 680px) {
+      .header-container {
+        flex-direction: column-reverse;
+        text-align: center;
+      }
+      .project-item {
+        flex-direction: column;
+      }
+      .project-media {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-container">
+    <div class="bio-section">
+      <h1 class="name-title">Guoke Luo <span class="name-cn">罗果科</span></h1>
+      <p>
+        I am a senior undergraduate student in the School of Traffic &amp; Transportation Engineering at <strong>Central South University (CSU)</strong>, graduating in June 2027.
+      </p>
+      <p>
+        My research focuses on <strong>Humanoid Robotics</strong>, <strong>Whole-Body Control (WBC)</strong>, <strong>Physics-Informed Reinforcement Learning</strong>, and <strong>Sim-to-Real Transfer</strong> on bipedal platforms such as the Unitree G1. Previously, I conducted research collaborations with mentors at the <strong>CMU Safe AI Lab</strong> and <strong>HKUST</strong>.
+      </p>
+      <p>
+        <strong>Prospective Faculty / Mentors:</strong> I am actively applying for <strong>Ph.D. / M.Phil. positions starting in Fall 2027</strong> in Robotics, Control, and Embodied AI. Feel free to reach out!
+      </p>
+      <div class="links-bar">
+        <a href="mailto:YOUR_EMAIL@example.com">Email</a>
+        <span>/</span>
+        <a href="assets/CV_Guoke_Luo.pdf" target="_blank">CV</a>
+        <span>/</span>
+        <a href="https://scholar.google.com/" target="_blank">Google Scholar</a>
+        <span>/</span>
+        <a href="https://github.com/GuokeLuo" target="_blank">GitHub</a>
+      </div>
+    </div>
+    <img class="profile-photo" src="assets/avatar.jpg" alt="Guoke Luo" onerror="this.style.display='none'">
+  </div>
+
+  <h2>News</h2>
+  <ul class="news-list">
+    <li>
+      <span class="news-date">[2026.10]</span>
+      <span>Won an International Award at the <strong>2nd UIC Train Rail Hackathon</strong>.</span>
+    </li>
+    <li>
+      <span class="news-date">[2026.07]</span>
+      <span>Submitted our work on adaptive bipedal locomotion on time-varying footholds to <strong>IEEE Humanoids 2026</strong>.</span>
+    </li>
+    <li>
+      <span class="news-date">[2026.03]</span>
+      <span>Started research collaboration on bipedal locomotion control with mentors at <strong>CMU Safe AI Lab</strong>.</span>
+    </li>
+  </ul>
+
+  <h2>Research &amp; Publications</h2>
+
+  <div class="project-item highlight">
+    <div class="project-media">
+      <div class="media-placeholder">Demo Video Placeholder<br>(Unitree G1 in Isaac Lab)</div>
+    </div>
+    <div class="project-info">
+      <div class="project-title">Adaptive Bipedal Locomotion on Time-Varying Footholds</div>
+      <div class="project-authors"><strong>Guoke Luo</strong>, et al.</div>
+      <div class="project-venue">Submitted to IEEE-RAS International Conference on Humanoid Robots (Humanoids), 2026 <span class="badge-tag">Humanoid Locomotion</span></div>
+      <div class="project-links">
+        <a href="#">[Paper (Coming Soon)]</a> &nbsp;/&nbsp;
+        <a href="#">[Video]</a> &nbsp;/&nbsp;
+        <a href="#">[Code]</a>
+      </div>
+      <p class="project-desc">
+        Developed a physics-informed reinforcement learning framework in <strong>Isaac Lab</strong> enabling a Unitree G1 humanoid robot to traverse dynamic, time-varying footholds with robust balance recovery and sim-to-real readiness.
+      </p>
+    </div>
+  </div>
+
+  <div class="project-item">
+    <div class="project-media">
+      <div class="media-placeholder">Architecture / Sim Demo<br>(WBC &amp; Sim-to-Real)</div>
+    </div>
+    <div class="project-info">
+      <div class="project-title">Whole-Body Control &amp; Sim-to-Real Pipeline for Humanoid Robots</div>
+      <div class="project-authors"><strong>Guoke Luo</strong></div>
+      <div class="project-venue">Research Project, 2026 <span class="badge-tag">Sim-to-Real</span></div>
+      <div class="project-links">
+        <a href="#">[Code]</a> &nbsp;/&nbsp;
+        <a href="#">[Technical Report]</a>
+      </div>
+      <p class="project-desc">
+        Built a modular reinforcement learning and whole-body tracking pipeline bridging <strong>Isaac Sim / Isaac Lab</strong> with physical humanoid hardware, integrating domain randomization and series low-level PD actuation.
+      </p>
+    </div>
+  </div>
+
+  <div class="project-item">
+    <div class="project-media">
+      <div class="media-placeholder">System Diagram<br>(3D Printing Control)</div>
+    </div>
+    <div class="project-info">
+      <div class="project-title">Real-Time Monitoring and Control Technologies in 3D Printing</div>
+      <div class="project-authors"><strong>Guoke Luo</strong>, et al.</div>
+      <div class="project-venue">Proceedings of ICEEGT, 2025 <span class="badge-tag">Control Systems</span></div>
+      <div class="project-links">
+        <a href="#">[Paper]</a>
+      </div>
+      <p class="project-desc">
+        Investigated closed-loop real-time monitoring and process control strategies for additive manufacturing systems to improve fabrication stability and precision.
+      </p>
+    </div>
+  </div>
+
+  <h2>Selected Honors &amp; Coursework Projects</h2>
+  <ul>
+    <li><strong>International Award</strong>, 2nd UIC Train Rail Hackathon, 2026</li>
+    <li><strong>LQG Controller Design and Robustness Analysis for an Inverted Pendulum System</strong>, Modern Control Theory Course Project, 2026</li>
+  </ul>
+
+  <footer>
+    Design inspired by Jon Barron's academic template. Last updated: Nov 2026.
+  </footer>
+
+</body>
+</html>
