@@ -81,6 +81,7 @@
       list-style: none;
       padding: 0;
       margin: 0;
+      min-height: 12px;
     }
     .news-list li {
       margin-bottom: 8px;
@@ -92,11 +93,12 @@
       color: var(--text-muted);
       min-width: 85px;
     }
+    /* Research Items: 支持左侧有媒体框或纯文字无图排版 */
     .project-item {
       display: flex;
       gap: 24px;
-      margin-bottom: 28px;
-      padding: 14px;
+      margin-bottom: 24px;
+      padding: 14px 16px;
       border-radius: 8px;
       transition: background-color 0.2s;
     }
@@ -196,6 +198,7 @@
 </head>
 <body>
 
+  <!-- Header & Bio -->
   <div class="header-container">
     <div class="bio-section">
       <h1 class="name-title">Guoke Luo <span class="name-cn">罗果科</span></h1>
@@ -221,24 +224,21 @@
     <img class="profile-photo" src="assets/avatar.jpg" alt="Guoke Luo" onerror="this.style.display='none'">
   </div>
 
+  <!-- News（栏目保留，有新动态时取消下方 li 注释即可展示） -->
   <h2>News</h2>
   <ul class="news-list">
+    <!--
     <li>
-      <span class="news-date">[2026.10]</span>
-      <span>Won an International Award at the <strong>2nd UIC Train Rail Hackathon</strong>.</span>
+      <span class="news-date">[2026.11]</span>
+      <span>Your future news item here.</span>
     </li>
-    <li>
-      <span class="news-date">[2026.07]</span>
-      <span>Submitted our work on adaptive bipedal locomotion on time-varying footholds to <strong>IEEE Humanoids 2026</strong>.</span>
-    </li>
-    <li>
-      <span class="news-date">[2026.03]</span>
-      <span>Started research collaboration on bipedal locomotion control with mentors at <strong>CMU Safe AI Lab</strong>.</span>
-    </li>
+    -->
   </ul>
 
+  <!-- Research & Publications -->
   <h2>Research &amp; Publications</h2>
 
+  <!-- Project 1: 带左侧媒体展示框 -->
   <div class="project-item highlight">
     <div class="project-media">
       <div class="media-placeholder">Demo Video Placeholder<br>(Unitree G1 in Isaac Lab)</div>
@@ -246,40 +246,20 @@
     <div class="project-info">
       <div class="project-title">Adaptive Bipedal Locomotion on Time-Varying Footholds</div>
       <div class="project-authors"><strong>Guoke Luo</strong>, et al.</div>
-      <div class="project-venue">Submitted to IEEE-RAS International Conference on Humanoid Robots (Humanoids), 2026 <span class="badge-tag">Humanoid Locomotion</span></div>
+      <div class="project-venue">Ongoing Research / Manuscript in Preparation, 2026 <span class="badge-tag">Humanoid Locomotion</span></div>
       <div class="project-links">
         <a href="#">[Paper (Coming Soon)]</a> &nbsp;/&nbsp;
         <a href="#">[Video]</a> &nbsp;/&nbsp;
         <a href="#">[Code]</a>
       </div>
       <p class="project-desc">
-        Developed a physics-informed reinforcement learning framework in <strong>Isaac Lab</strong> enabling a Unitree G1 humanoid robot to traverse dynamic, time-varying footholds with robust balance recovery and sim-to-real readiness.
+        Developing a physics-informed reinforcement learning framework in <strong>Isaac Lab</strong> enabling a Unitree G1 humanoid robot to traverse dynamic, time-varying footholds with robust balance recovery and sim-to-real readiness.
       </p>
     </div>
   </div>
 
+  <!-- Project 2: 无左侧展示图，纯文字排版 -->
   <div class="project-item">
-    <div class="project-media">
-      <div class="media-placeholder">Architecture / Sim Demo<br>(WBC &amp; Sim-to-Real)</div>
-    </div>
-    <div class="project-info">
-      <div class="project-title">Whole-Body Control &amp; Sim-to-Real Pipeline for Humanoid Robots</div>
-      <div class="project-authors"><strong>Guoke Luo</strong></div>
-      <div class="project-venue">Research Project, 2026 <span class="badge-tag">Sim-to-Real</span></div>
-      <div class="project-links">
-        <a href="#">[Code]</a> &nbsp;/&nbsp;
-        <a href="#">[Technical Report]</a>
-      </div>
-      <p class="project-desc">
-        Built a modular reinforcement learning and whole-body tracking pipeline bridging <strong>Isaac Sim / Isaac Lab</strong> with physical humanoid hardware, integrating domain randomization and series low-level PD actuation.
-      </p>
-    </div>
-  </div>
-
-  <div class="project-item">
-    <div class="project-media">
-      <div class="media-placeholder">System Diagram<br>(3D Printing Control)</div>
-    </div>
     <div class="project-info">
       <div class="project-title">Real-Time Monitoring and Control Technologies in 3D Printing</div>
       <div class="project-authors"><strong>Guoke Luo</strong>, et al.</div>
@@ -293,10 +273,10 @@
     </div>
   </div>
 
-  <h2>Selected Honors &amp; Coursework Projects</h2>
+  <!-- Honors & Awards -->
+  <h2>Selected Honors &amp; Awards</h2>
   <ul>
-    <li><strong>International Award</strong>, 2nd UIC Train Rail Hackathon, 2026</li>
-    <li><strong>LQG Controller Design and Robustness Analysis for an Inverted Pendulum System</strong>, Modern Control Theory Course Project, 2026</li>
+    <li><strong>International Award</strong>, 2nd UIC Train Rail Hackathon, 2024</li>
   </ul>
 
   <footer>
