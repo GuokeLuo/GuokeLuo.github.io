@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guoke Luo (罗果科) - Humanoid Robotics &amp; Embodied AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       Design System — Archival Editorial × Precision Robotics
+       ========================================================================== */
+    :root {
+      color-scheme: light;
+      --bg: #f8f7f3;
+      --bg-subtle: #f1efe9;
+      --surface: #ffffff;
+      --surface-elevated: #ffffff;
+      --ink: #121c24;
+      --ink-secondary: #3f4d59;
+      --ink-muted: #687682;
+      --accent: #1b5672;
+      --accent-deep: #113a4f;
+      --accent-soft: rgba(27, 86, 114, 0.065);
+      --accent-border: rgba(27, 86, 114, 0.22);
+      --signal: #2a7f62;
+      --line: #e2e0d8;
+      --line-strong: #cfccc2;
+      --grid-dot: rgba(18, 28, 36, 0.045);
+      --shadow-sm: 0 1px 2px rgba(18, 28, 36, 0.04), 0 4px 12px rgba(18, 28, 36, 0.03);
+      --shadow-md: 0 12px 32px -12px rgba(18, 28, 36, 0.14), 0 2px 6px rgba(18, 28, 36, 0.04);
+      --shadow-portrait: 0 20px 44px -18px rgba(18, 28, 36, 0.22), 0 4px 12px -4px rgba(18, 28, 36, 0.08);
+      --serif: 'Newsreader', 'Noto Serif SC', Georgia, 'Songti SC', serif;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0d1117;
+      --bg-subtle: #131922;
+      --surface: #141b24;
+      --surface-elevated: #19222e;
+      --ink: #edf1f5;
+      --ink-secondary: #a8b5c2;
+      --ink-muted: #768594;
+      --accent: #67b0d1;
+      --accent-deep: #90cae4;
+      --accent-soft: rgba(103, 176, 209, 0.09);
+      --accent-border: rgba(103, 176, 209, 0.26);
+      --signal: #4ec499;
+      --line: #232d39;
+      --line-strong: #324052;
+      --grid-dot: rgba(237, 241, 245, 0.04);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.24), 0 6px 16px rgba(0, 0, 0, 0.18);
+      --shadow-md: 0 18px 40px -14px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.28);
+      --shadow-portrait: 0 24px 48px -16px rgba(0, 0, 0, 0.65);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 72px;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background-color: var(--bg);
+      background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+      background-size: 28px 28px;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15.5px;
+      line-height: 1.78;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      transition: background-color 0.35s var(--ease-out-expo), color 0.35s var(--ease-out-expo);
+    }
+
+    ::selection {
+      background: var(--accent-soft);
+      color: var(--accent-deep);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      text-underline-offset: 4px;
+      transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.25s var(--ease-out-expo), box-shadow 0.25s var(--ease-out-expo);
+    }
+
+    a:hover { color: var(--accent-deep); }
+
+    a:focus-visible,
+    button:focus-visible,
+    video:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    strong {
+      color: var(--ink);
+      font-weight: 550;
+    }
+
+    [hidden] { display: none !important; }
+
+    /* Reading progress hairline */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 60;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+      pointer-events: none;
+      transition: width 0.08s linear;
+    }
+
+    /* ==========================================================================
+       Top Architectural Utility Bar
+       ========================================================================== */
+    .top-rail {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: background-color 0.35s var(--ease-out-expo), border-color 0.35s var(--ease-out-expo);
+    }
+
+    .top-rail-inner {
+      width: min(100% - 88px, 1020px);
+      margin-inline: auto;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .rail-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      letter-spacing: 0.04em;
+      color: var(--ink-muted);
+    }
+
+    .rail-brand:hover { color: var(--ink); }
+
+    .rail-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .rail-nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .rail-nav a {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--ink-muted);
+      letter-spacing: 0.01em;
+      position: relative;
+      padding-block: 4px;
+    }
+
+    .rail-nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1.5px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s var(--ease-out-expo);
+    }
+
+    .rail-nav a:hover { color: var(--ink); }
+    .rail-nav a:hover::after { transform: scaleX(1); }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--ink-secondary);
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, transform 0.25s var(--ease-out-expo);
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--line-strong);
+      color: var(--ink);
+      transform: rotate(12deg);
+    }
+
+    .theme-toggle svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    [data-theme="light"] .icon-sun { display: none; }
+    [data-theme="dark"] .icon-moon { display: none; }
+
+    /* ==========================================================================
+       Main Shell
+       ========================================================================== */
+    .page-shell {
+      width: min(100% - 88px, 1020px);
+      margin-inline: auto;
+    }
+
+    /* ==========================================================================
+       Header & Bio — Editorial Spread
+       ========================================================================== */
+    .header-container {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 236px;
+      column-gap: clamp(40px, 6.5vw, 84px);
+      align-items: start;
+      padding-block: 68px 60px;
+    }
+
+    .bio-section {
+      min-width: 0;
+      animation: fadeUp 0.7s var(--ease-out-expo) both;
+    }
+
+    .name-title {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 10px 18px;
+      margin: 0 0 26px;
+      font-family: var(--serif);
+      font-size: clamp(44px, 5.4vw, 64px);
+      font-weight: 400;
+      line-height: 1.06;
+      letter-spacing: -0.032em;
+      color: var(--ink);
+    }
+
+    .name-cn {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: 'Noto Serif SC', 'Songti SC', Georgia, serif;
+      font-size: clamp(20px, 2.2vw, 24px);
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      color: var(--ink-muted);
+    }
+
+    .name-cn::before {
+      content: '';
+      display: inline-block;
+      width: 1px;
+      height: 22px;
+      background: var(--line-strong);
+      transform: rotate(12deg);
+    }
+
+    .bio-section p {
+      margin: 0 0 16px;
+      max-width: 64ch;
+      color: var(--ink-secondary);
+      font-size: 15.5px;
+      line-height: 1.82;
+    }
+
+    .bio-section p:last-of-type { margin-bottom: 0; }
+
+    /* Prospective Faculty Callout — Architectural Notice */
+    .callout-box {
+      position: relative;
+      margin: 28px 0 0;
+      padding: 16px 20px 16px 22px;
+      max-width: 64ch;
+      border: 1px solid var(--accent-border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      background: var(--accent-soft);
+      color: var(--ink-secondary);
+      font-size: 14px;
+      line-height: 1.76;
+    }
+
+    .callout-box > strong:first-child {
+      color: var(--accent-deep);
+      font-weight: 600;
+    }
+
+    .callout-box > strong:first-child::before {
+      content: '';
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      margin-right: 9px;
+      vertical-align: 1px;
+      border-radius: 50%;
+      background: var(--signal);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--signal) 22%, transparent);
+      animation: pulseSignal 2.6s ease-in-out infinite;
+    }
+
+    /* Action Links Bar */
+    .links-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .links-bar a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 8px 15px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-md);
+      color: var(--ink-secondary);
+      background: var(--surface);
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1;
+      box-shadow: 0 1px 2px rgba(18, 28, 36, 0.03);
+    }
+
+    .links-bar a:first-child {
+      color: #ffffff;
+      background: var(--ink);
+      border-color: var(--ink);
+      box-shadow: 0 6px 16px -8px rgba(18, 28, 36, 0.45);
+    }
+
+    [data-theme="dark"] .links-bar a:first-child {
+      color: #0d1117;
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .links-bar a:hover {
+      color: var(--accent-deep);
+      background: var(--surface-elevated);
+      border-color: var(--accent);
+      transform: translateY(-1.5px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .links-bar a:first-child:hover {
+      color: #ffffff;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    [data-theme="dark"] .links-bar a:first-child:hover {
+      color: #0d1117;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .links-bar svg {
+      width: 14px;
+      height: 14px;
+      flex: 0 0 auto;
+      fill: currentColor;
+      opacity: 0.9;
+    }
+
+    /* Archival Portrait Frame with Precision Registration Ticks */
+    .portrait-wrap {
+      position: relative;
+      margin-top: 8px;
+      animation: fadeUp 0.75s var(--ease-out-expo) 0.1s both;
+    }
+
+    .portrait-frame {
+      position: relative;
+      margin: 0;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      padding: 7px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      box-shadow: var(--shadow-portrait);
+      transition: transform 0.45s var(--ease-out-expo), box-shadow 0.45s var(--ease-out-expo);
+    }
+
+    .portrait-frame:hover {
+      transform: translateY(-3px);
+    }
+
+    /* Offset architectural backing plate */
+    .portrait-frame::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      inset: 12px -12px -12px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 5px,
+        var(--line) 5px,
+        var(--line) 6px
+      );
+      opacity: 0.55;
+      transition: transform 0.45s var(--ease-out-expo);
+    }
+
+    .portrait-frame:hover::before {
+      transform: translate(2px, 2px);
+    }
+
+    .portrait-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 2px;
+      background: var(--bg-subtle);
+    }
+
+    .portrait-placeholder {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .profile-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: 50% 35%;
+      background: var(--bg-subtle);
+      transition: transform 0.6s var(--ease-out-expo);
+    }
+
+    .portrait-frame:hover .profile-photo {
+      transform: scale(1.025);
+    }
+
+    /* ==========================================================================
+       Content Sections — Quiet Editorial Rhythm
+       ========================================================================== */
+    .content-section {
+      position: relative;
+      border-top: 1px solid var(--line);
+      padding-block: 44px 52px;
+      counter-reset: project-counter;
+    }
+
+    .content-section::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 0;
+      width: 44px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    h2 {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin: 0 0 32px;
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: clamp(27px, 3vw, 33px);
+      line-height: 1.2;
+      font-weight: 400;
+      letter-spacing: -0.025em;
+    }
+
+    /* ==========================================================================
+       Research & Publications Cards
+       ========================================================================== */
+    .project-item {
+      position: relative;
+      padding: 30px 32px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      counter-increment: project-counter;
+      transition: border-color 0.25s ease, transform 0.35s var(--ease-out-expo), box-shadow 0.35s var(--ease-out-expo);
+    }
+
+    .project-item:hover {
+      border-color: var(--line-strong);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .project-item + .project-item {
+      margin-top: 22px;
+    }
+
+    /* Featured Highlight Card */
+    .project-item.highlight {
+      display: grid;
+      grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+      gap: 34px;
+      align-items: center;
+      padding: 30px;
+      border-color: var(--accent-border);
+      background: linear-gradient(135deg, var(--surface) 0%, color-mix(in srgb, var(--surface) 94%, var(--accent) 6%) 100%);
+    }
+
+    .project-item.highlight:hover {
+      border-color: var(--accent);
+    }
+
+    .project-item.highlight::before {
+      content: '';
+      position: absolute;
+      left: -1px;
+      top: 28px;
+      bottom: 28px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: var(--accent);
+    }
+
+    /* Media Viewport */
+    .project-media {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+    }
+
+    .video-shell {
+      position: relative;
+      display: grid;
+      width: 100%;
+      aspect-ratio: 16 / 10.5;
+      overflow: hidden;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-md);
+      background: #0f1820;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 10px 24px -14px rgba(18, 28, 36, 0.35);
+    }
+
+    .media-placeholder {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .project-media video {
+      position: relative;
+      z-index: 2;
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      object-fit: contain;
+      background: #0f1820;
+    }
+
+    .project-info {
+      min-width: 0;
+      position: relative;
+    }
+
+    /* Pure-CSS index badge (zero content alteration) */
+    .project-info::before {
+      content: "0" counter(project-counter);
+      display: block;
+      margin-bottom: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      opacity: 0.85;
+    }
+
+    .project-title {
+      margin: 0 0 10px;
+      font-family: var(--serif);
+      font-size: clamp(20px, 2.1vw, 23px);
+      font-weight: 500;
+      line-height: 1.32;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .project-authors {
+      margin-bottom: 8px;
+      color: var(--ink-muted);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .project-authors strong {
+      color: var(--ink);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: var(--accent-border);
+      text-underline-offset: 4px;
+      text-decoration-thickness: 1.5px;
+    }
+
+    .project-venue {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      font-style: italic;
+      color: var(--ink-muted);
+    }
+
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 9px;
+      border: 1px solid var(--accent-border);
+      border-radius: 999px;
+      color: var(--accent);
+      background: var(--accent-soft);
+      font-family: var(--mono);
+      font-style: normal;
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .project-links a,
+    .project-links .link-disabled {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      min-height: 30px;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .project-links a {
+      border: 1px solid var(--accent-border);
+      background: var(--accent-soft);
+      color: var(--accent-deep);
+    }
+
+    .project-links a:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    [data-theme="dark"] .project-links a:hover {
+      color: #0d1117;
+    }
+
+    .project-links .link-disabled {
+      border: 1px dashed var(--line-strong);
+      color: var(--ink-muted);
+      background: transparent;
+      cursor: default;
+    }
+
+    .project-desc {
+      margin: 0;
+      color: var(--ink-secondary);
+      font-size: 14px;
+      line-height: 1.82;
+    }
+
+    .project-item:not(.highlight) .project-desc {
+      max-width: 78ch;
+    }
+
+    /* ==========================================================================
+       Honors & News Lists
+       ========================================================================== */
+    .honors-section {
+      padding-bottom: 16px;
+    }
+
+    .honors-list,
+    .news-list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .honors-list li {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: var(--ink-secondary);
+      font-size: 14.5px;
+      transition: border-color 0.2s ease, transform 0.25s var(--ease-out-expo);
+    }
+
+    .honors-list li + li {
+      margin-top: 10px;
+    }
+
+    .honors-list li:hover {
+      border-color: var(--accent-border);
+      transform: translateX(3px);
+    }
+
+    .honor-year,
+    .news-date {
+      font-family: var(--mono);
+      color: var(--ink-muted);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.03em;
+    }
+
+    .honor-year {
+      flex: 0 0 auto;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--bg-subtle);
+    }
+
+    .news-list li {
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 18px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-secondary);
+      font-size: 14.5px;
+    }
+
+    .news-list li:last-child {
+      border-bottom: none;
+    }
+
+    /* ==========================================================================
+       Footer
+       ========================================================================== */
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 56px;
+      padding-block: 24px 44px;
+      border-top: 1px solid var(--line);
+      color: var(--ink-muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+    }
+
+    footer::before {
+      content: '';
+      width: 28px;
+      height: 2px;
+      flex: 0 0 auto;
+      background: var(--accent);
+    }
+
+    footer span {
+      flex: 1 1 auto;
+    }
+
+    /* ==========================================================================
+       Scroll Reveal & Keyframes
+       ========================================================================== */
+    .reveal {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.65s var(--ease-out-expo), transform 0.65s var(--ease-out-expo);
+    }
+
+    .js-ready .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    .js-ready .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulseSignal {
+      0%, 100% {
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--signal) 22%, transparent);
+      }
+      50% {
+        box-shadow: 0 0 0 6px color-mix(in srgb, var(--signal) 8%, transparent);
+      }
+    }
+
+    /* ==========================================================================
+       Responsive Breakpoints
+       ========================================================================== */
+    @media (min-width: 1400px) {
+      .header-container { padding-top: 84px; }
+    }
+
+    @media (max-width: 920px) {
+      .top-rail-inner,
+      .page-shell { width: calc(100% - 56px); }
+      .header-container {
+        grid-template-columns: minmax(0, 1fr) 196px;
+        column-gap: 40px;
+        padding-block: 52px 48px;
+      }
+      .name-title { font-size: 46px; }
+      .project-item.highlight {
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        gap: 26px;
+        padding: 24px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .top-rail-inner,
+      .page-shell { width: calc(100% - 36px); }
+      .rail-brand { font-size: 11px; }
+      .rail-nav { gap: 14px; }
+      .header-container {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
+        padding-block: 36px 40px;
+      }
+      .portrait-wrap {
+        order: -1;
+        width: 154px;
+        margin-top: 0;
+      }
+      .portrait-frame { padding: 5px; }
+      .portrait-frame::before { inset: 8px -8px -8px 8px; }
+      .name-title {
+        font-size: clamp(38px, 10vw, 48px);
+        gap: 8px 14px;
+        margin-bottom: 20px;
+      }
+      .name-cn { font-size: 18px; }
+      .name-cn::before { height: 17px; }
+      .bio-section p { font-size: 14.5px; }
+      .callout-box {
+        padding: 14px 16px;
+        font-size: 13.5px;
+        margin-top: 22px;
+      }
+      .links-bar { gap: 8px; margin-top: 22px; }
+      .links-bar a { padding: 8px 13px; min-height: 40px; }
+      .content-section { padding-block: 32px 38px; }
+      h2 { font-size: 26px; margin-bottom: 24px; }
+      .project-item,
+      .project-item.highlight {
+        display: block;
+        padding: 22px;
+        border-radius: var(--radius-md);
+      }
+      .project-item.highlight::before { top: 22px; bottom: 22px; }
+      .project-media { margin-bottom: 22px; }
+      .project-title { font-size: 20px; }
+      .project-desc { font-size: 13.5px; }
+      .honors-list li {
+        align-items: flex-start;
+        gap: 16px;
+        padding: 13px 15px;
+        font-size: 13.5px;
+      }
+      footer { margin-top: 40px; padding-bottom: 32px; font-size: 10.5px; }
+    }
+
+    @media (max-width: 400px) {
+      .top-rail-inner,
+      .page-shell { width: calc(100% - 28px); }
+      .rail-nav a { font-size: 11.5px; }
+      .name-title { font-size: 36px; }
+      .project-item,
+      .project-item.highlight { padding: 18px; }
+      .honors-list li { flex-direction: column; gap: 6px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+      .js-ready .reveal { opacity: 1; transform: none; }
+    }
+
+    @media print {
+      body { background: #fff !important; color: #111; font-size: 10.5pt; }
+      .top-rail, .scroll-progress { display: none !important; }
+      .page-shell { width: 100%; }
+      .header-container {
+        padding-block: 16px 24px;
+        grid-template-columns: minmax(0, 1fr) 146px;
+        gap: 28px;
+      }
+      .name-title { font-size: 32pt; }
+      .content-section { padding-block: 18px; }
+      .project-item,
+      .honors-list li,
+      .portrait-frame {
+        break-inside: avoid;
+        box-shadow: none !important;
+        transform: none !important;
+      }
+      .portrait-frame::before { display: none; }
+      .callout-box,
+      .badge-tag {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+      .js-ready .reveal { opacity: 1 !important; transform: none !important; }
+      footer { margin-top: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Quiet Editorial Utility Rail -->
+  <nav class="top-rail" aria-label="Page navigation">
+    <div class="top-rail-inner">
+      <a class="rail-brand" href="#top">
+        <span class="rail-dot" aria-hidden="true"></span>
+        <span>Guoke Luo</span>
+      </a>
+      <div class="rail-nav">
+        <a href="#research">Research</a>
+        <a href="#honors">Honors</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle light / dark theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-shell" id="top">
+
+    <!-- Header & Bio -->
+    <header class="header-container">
+      <div class="bio-section">
+        <h1 class="name-title">Guoke Luo <span class="name-cn">罗果科</span></h1>
+        <p>
+          I am a senior undergraduate student in the School of Traffic &amp; Transportation Engineering at <strong>Central South University (CSU)</strong>, graduating in June 2027.
+        </p>
+        <p>
+          My research focuses on <strong>Humanoid Robotics</strong>, <strong>Whole-Body Control (WBC)</strong>, <strong>Physics-Informed Reinforcement Learning</strong>, and <strong>Sim-to-Real Transfer</strong> on bipedal platforms such as the Unitree G1. Previously, I conducted research collaborations with mentors at the <strong>CMU Safe AI Lab</strong> and <strong>HKUST</strong>.
+        </p>
+        <div class="callout-box">
+          <strong>Prospective Faculty / Mentors:</strong> I am actively applying for <strong>MPhil / RA positions starting in Fall 2027</strong> in Robotics, Control, and Embodied AI. Feel free to reach out!
+        </div>
+        <div class="links-bar">
+          <a href="mailto:gkl_csu@163.com">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            Email
+          </a>
+          <a href="assets/CV_Guoke_Luo.pdf" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            CV
+          </a>
+          <a href="https://www.linkedin.com/in/guoke-luo-8abb22424/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+            LinkedIn
+          </a>
+          <!-- 以后开通 Google Scholar 后取消下面注释即可
+          <a href="你的Scholar链接" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+          -->
+          <a href="https://github.com/GuokeLuo" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- 头像：把照片放到 assets/avatar.jpg 即可。建议 4:5 竖幅，至少 600 × 750 px。
+           调整上方 CSS 的 .profile-photo { object-position } 可改变人脸在相框中的位置。 -->
+      <div class="portrait-wrap">
+        <figure class="portrait-frame" aria-label="Guoke Luo portrait">
+          <div class="portrait-inner">
+            <svg class="portrait-placeholder" viewBox="0 0 240 300" aria-hidden="true" focusable="false">
+              <defs>
+                <linearGradient id="portraitGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#eaeeec"/>
+                  <stop offset="100%" stop-color="#dde5e5"/>
+                </linearGradient>
+              </defs>
+              <rect width="240" height="300" fill="url(#portraitGrad)"/>
+              <g stroke="#c6d2d0" stroke-width="0.75" opacity="0.75">
+                <line x1="60" y1="0" x2="60" y2="300"/>
+                <line x1="120" y1="0" x2="120" y2="300"/>
+                <line x1="180" y1="0" x2="180" y2="300"/>
+                <line x1="0" y1="75" x2="240" y2="75"/>
+                <line x1="0" y1="150" x2="240" y2="150"/>
+                <line x1="0" y1="225" x2="240" y2="225"/>
+              </g>
+              <circle cx="120" cy="108" r="40" fill="#bdc9c8"/>
+              <path d="M36 300v-26c0-52 34-84 84-84s84 32 84 84v26" fill="#bdc9c8"/>
+              <g fill="none" stroke="#1b5672" stroke-width="1.2" opacity="0.55">
+                <path d="M18 28V18h10"/>
+                <path d="M222 28V18h-10"/>
+                <path d="M18 272v10h10"/>
+                <path d="M222 272v10h-10"/>
+              </g>
+            </svg>
+            <img class="profile-photo" src="assets/avatar.jpg" alt="Guoke Luo" width="600" height="750" decoding="async">
+          </div>
+        </figure>
+      </div>
+    </header>
+
+    <main>
+      <!-- News（有新动态时，删掉下面这行和最底部的注释符号即可恢复显示）
+      <section class="content-section reveal" aria-labelledby="news-title" id="news">
+        <h2 id="news-title">News</h2>
+        <ul class="news-list">
+          <li>
+            <span class="news-date">[2026.11]</span>
+            <span>Your future news item here.</span>
+          </li>
+        </ul>
+      </section>
+      -->
+
+      <!-- Research & Publications -->
+      <section class="content-section reveal" aria-labelledby="research-title" id="research">
+        <h2 id="research-title">Research &amp; Publications</h2>
+
+        <!-- Project 1: 带左侧媒体展示框 -->
+        <article class="project-item highlight reveal" aria-labelledby="project-1-title">
+          <div class="project-media">
+            <div class="video-shell">
+              <svg class="media-placeholder" viewBox="0 0 400 262" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="stageBg" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#131e28"/>
+                    <stop offset="100%" stop-color="#0d151c"/>
+                  </linearGradient>
+                  <linearGradient id="trajGlow" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#67b0d1" stop-opacity="0.15"/>
+                    <stop offset="50%" stop-color="#67b0d1" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#4ec499" stop-opacity="0.85"/>
+                  </linearGradient>
+                </defs>
+                <rect width="400" height="262" fill="url(#stageBg)"/>
+                <!-- Perspective locomotion grid -->
+                <g stroke="#293d4d" stroke-width="0.8" opacity="0.7">
+                  <line x1="0" y1="196" x2="400" y2="196"/>
+                  <line x1="0" y1="224" x2="400" y2="224"/>
+                  <line x1="0" y1="172" x2="400" y2="172"/>
+                  <line x1="80" y1="150" x2="20" y2="262"/>
+                  <line x1="160" y1="150" x2="130" y2="262"/>
+                  <line x1="240" y1="150" x2="270" y2="262"/>
+                  <line x1="320" y1="150" x2="380" y2="262"/>
+                </g>
+                <!-- Time-varying foothold pads -->
+                <g fill="#1b5672" fill-opacity="0.35" stroke="#67b0d1" stroke-width="1">
+                  <rect x="64" y="186" width="46" height="12" rx="2"/>
+                  <rect x="138" y="166" width="46" height="12" rx="2"/>
+                  <rect x="218" y="180" width="46" height="12" rx="2"/>
+                  <rect x="292" y="158" width="46" height="12" rx="2"/>
+                </g>
+                <!-- Smooth swing-foot trajectory arc -->
+                <path d="M87 186 Q124 128 161 166 Q199 116 241 180 Q278 112 315 158" fill="none" stroke="url(#trajGlow)" stroke-width="1.8" stroke-dasharray="4 3"/>
+                <!-- Registration ticks -->
+                <g fill="none" stroke="#67b0d1" stroke-width="1" opacity="0.45">
+                  <path d="M16 26V16h10"/>
+                  <path d="M384 26V16h-10"/>
+                  <path d="M16 236v10h10"/>
+                  <path d="M384 236v10h-10"/>
+                </g>
+                <!-- Play emblem -->
+                <circle cx="200" cy="112" r="28" fill="#0f1820" fill-opacity="0.82" stroke="#67b0d1" stroke-opacity="0.6" stroke-width="1.2"/>
+                <path d="M195 101l17 11-17 11z" fill="#edf1f5"/>
+              </svg>
+              <!-- 保留原视频路径。找不到视频时保留版面，上传原视频后自动显示。 -->
+              <video id="demo-video" autoplay loop muted playsinline controls preload="metadata" src="assets/g1_footholds.mp4" aria-label="Adaptive Bipedal Locomotion on Time-Varying Footholds"></video>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3 class="project-title" id="project-1-title">Adaptive Bipedal Locomotion on Time-Varying Footholds</h3>
+            <div class="project-authors"><strong>Guoke Luo</strong>, Hao Zhang</div>
+            <div class="project-venue">
+              Ongoing Research / Manuscript in Preparation, 2026
+              <span class="badge-tag">Humanoid Locomotion</span>
+            </div>
+            <div class="project-links">
+              <span class="link-disabled">Paper (Coming Soon)</span>
+              <a href="assets/g1_footholds.mp4" target="_blank" rel="noopener noreferrer">Video Demo ↗</a>
+            </div>
+            <p class="project-desc">
+              Developing a physics-informed reinforcement learning framework in <strong>Isaac Lab</strong> enabling a Unitree G1 humanoid robot to traverse dynamic, time-varying footholds with robust balance recovery and sim-to-real readiness.
+            </p>
+          </div>
+        </article>
+
+        <!-- Project 2: 无左侧展示图，纯文字排版 -->
+        <article class="project-item reveal" aria-labelledby="project-2-title">
+          <div class="project-info">
+            <h3 class="project-title" id="project-2-title">Real-Time Monitoring and Control Technologies in 3D Printing</h3>
+            <div class="project-authors"><strong>Guoke Luo</strong></div>
+            <div class="project-venue">
+              Proceedings of ICEEGT, 2025
+              <span class="badge-tag">Control Systems</span>
+            </div>
+            <div class="project-links">
+              <a href="https://doi.org/10.2991/978-94-6463-986-5_7" target="_blank" rel="noopener noreferrer">Paper ↗</a>
+            </div>
+            <p class="project-desc">
+              Investigated closed-loop real-time monitoring and process control strategies for additive manufacturing systems to improve fabrication stability and precision.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <!-- Honors & Awards -->
+      <section class="content-section honors-section reveal" aria-labelledby="honors-title" id="honors">
+        <h2 id="honors-title">Selected Honors &amp; Awards</h2>
+        <ul class="honors-list">
+          <li>
+            <span><strong>International Award</strong>, 2nd UIC Train Rail Hackathon</span>
+            <span class="honor-year">2024</span>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <span>Design inspired by Jon Barron's academic template. Last updated: Nov 2026.</span>
+    </footer>
+
+  </div>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggleBtn = document.getElementById('theme-toggle');
+      const progressBar = document.getElementById('scroll-progress');
+
+      // 1. Theme persistence (safe in sandboxed iframes)
+      let savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem('guoke_theme');
+      } catch (e) {
+        savedTheme = null;
+      }
+
+      if (savedTheme === 'dark' || savedTheme === 'light') {
+        root.setAttribute('data-theme', savedTheme);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        root.setAttribute('data-theme', 'dark');
+      }
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function () {
+          const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          root.setAttribute('data-theme', next);
+          try {
+            localStorage.setItem('guoke_theme', next);
+          } catch (e) {
+            // Ignore storage restrictions
+          }
+        });
+      }
+
+      // 2. Graceful media fallback when local assets are absent in preview
+      const avatarImg = document.querySelector('.profile-photo');
+      if (avatarImg) {
+        avatarImg.addEventListener('error', function () {
+          this.hidden = true;
+        });
+        if (avatarImg.complete && avatarImg.naturalWidth === 0) {
+          avatarImg.hidden = true;
+        }
+      }
+
+      const demoVideo = document.getElementById('demo-video');
+      if (demoVideo) {
+        demoVideo.addEventListener('error', function () {
+          this.hidden = true;
+        });
+      }
+
+      // 3. Subtle reading progress indicator
+      function updateProgress() {
+        if (!progressBar) return;
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+        progressBar.style.width = pct.toFixed(1) + '%';
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress, { passive: true });
+      updateProgress();
+
+      // 4. Restrained scroll-reveal
+      if ('IntersectionObserver' in window) {
+        root.classList.add('js-ready');
+        const observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin: '0px 0px -24px 0px' }
+        );
+        document.querySelectorAll('.reveal').forEach(function (el) {
+          observer.observe(el);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
